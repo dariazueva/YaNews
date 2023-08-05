@@ -1,7 +1,7 @@
-from django.contrib.auth import get_user_model
-from django.test import Client, TestCase
 from unittest import skip
 
+from django.contrib.auth import get_user_model
+from django.test import Client, TestCase
 
 # Получаем модель пользователя.
 User = get_user_model()

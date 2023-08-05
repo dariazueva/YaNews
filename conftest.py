@@ -1,8 +1,10 @@
-import pytest
-from news.models import News, Comment
-from yanews.settings import NEWS_COUNT_ON_HOME_PAGE
 from datetime import timedelta
+
+import pytest
 from django.utils import timezone
+
+from news.models import Comment, News
+from yanews.settings import NEWS_COUNT_ON_HOME_PAGE
 
 
 @pytest.fixture
