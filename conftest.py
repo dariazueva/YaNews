@@ -1,6 +1,8 @@
 import pytest
-from datetime import datetime
 from news.models import News, Comment
+from yanews.settings import NEWS_COUNT_ON_HOME_PAGE
+from datetime import timedelta
+from django.utils import timezone
 
 
 @pytest.fixture
@@ -18,7 +20,7 @@ def author_client(author, client):
 def new():
     new = News.objects.create(
         title='Заголовок',
-        text='Текст заметки',
+        text='Текст новости',
     )
     return new
 
@@ -27,7 +29,7 @@ def comment(new, author):
     comment = Comment.objects.create(
         news=new,
         author=author,
-        text='Текст заметки',
+        text='Текст комментария',
     )
     return comment
 
@@ -42,6 +44,33 @@ def id_comment_for_args(comment):
 @pytest.fixture
 def form_data():
     return {
-        'news': 'Новость',
+        'text': 'Новый текст'
+    }
+
+@pytest.fixture
+def news_list():
+    for index in range(NEWS_COUNT_ON_HOME_PAGE + 1):
+        news = News.objects.create(title=f'Новость {index}', text='Просто текст.')
+        news.save()
+    return index
+
+@pytest.fixture
+def comments(author, new):
+    now = timezone.now()
+    comments = []
+    for index in range(2):
+        comment = Comment.objects.create(
+            news=new,
+            author=author,
+            text=f"Текст {index}",
+        )
+        comment.created = now + timedelta(days=index)
+        comment.save()
+        comments.append(comment)
+    return comments
+
+@pytest.fixture
+def form_data_comment():
+    return {
         'text': 'Новый текст'
     }

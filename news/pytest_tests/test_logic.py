@@ -7,10 +7,10 @@
 # from http import HTTPStatus
 
 
-# def test_user_can_create_comment(author_client, author, form_data):
+# def test_user_can_create_comment(author_client, author, new, form_data):
 #     url = reverse('news:detail', args=(new.id,))
 #     response = author_client.post(url, data=form_data)
-#     assertRedirects(response, reverse('news:detail'))
+#     assertRedirects(response, reverse('news:detail', args=(new.id,)))
 #     assert Comment.objects.count() == 1
 #     new_comment = Comment.objects.get()
 #     assert new_comment.news == form_data['news']
