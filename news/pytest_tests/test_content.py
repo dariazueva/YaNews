@@ -46,6 +46,17 @@ def test_news_order(client):
 #     all_comments = new.comment_set.all()
 #     assert all_comments[0].created != all_comments[1].created
     
+# @pytest.mark.django_db 
+# def test_comments_order(client, comments, new): 
+#     url = reverse("news:detail", args=(new.id,)) 
+#     response = client.get(url)
+#     assert "news" in response.context
+#     news = response.context['news']
+#     all_comments = news.comment_set.all()
+#     assert all_comments[0].created < all_comments[1].created
+
+
+
 @pytest.mark.django_db 
 def test_comments_order(client, comments, new): 
     url = reverse("news:detail", args=(new.id,)) 
@@ -53,7 +64,22 @@ def test_comments_order(client, comments, new):
     assert "news" in response.context
     news = response.context['news']
     all_comments = news.comment_set.all()
-    assert all_comments[0].created < all_comments[1].created
+    sorted_comments = sorted(all_comments, key=lambda x: x.created, reverse=False)
+    assert sorted_comments == comments
+
+    
+
+# @pytest.mark.django_db
+# def test_comments_order(client, comment_objects):
+#     news, comments = comment_objects
+#     detail_url = reverse("news:detail", args=(news.id,))
+#     response = client.get(detail_url)
+#     assert "news" in response.context
+#     news = response.context['news']
+#     all_comments = news.comment_set.all()
+#     all_dates = [all_comments.date for all_comments in all_comments]
+#     sorted_comments = sorted(all_dates, reverse=False)
+#     assert sorted_comments == comments
 
 # @pytest.mark.django_db 
 # def test_comments_order(client, comments, new): 
